@@ -54,16 +54,16 @@
       <a-image width="64" :src="record.resultPicture" />
     </template>
     <template #appType="{ record }">
-      {{ APP_TYPE_MAP[record.appType] }}
+      {{ APP_TYPE_MAP[record.appType as 0 | 1] }}
     </template>
     <template #scoringStrategy="{ record }">
-      {{ APP_SCORING_STRATEGY_MAP[record.scoringStrategy] }}
+      {{ APP_SCORING_STRATEGY_MAP[record.scoringStrategy as 0 | 1] }}
     </template>
     <template #createTime="{ record }">
-      {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{ formatDateTime(record.createTime) }}
     </template>
     <template #updateTime="{ record }">
-      {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{ formatDateTime(record.updateTime) }}
     </template>
     <template #optional="{ record }">
       <a-space>
@@ -81,7 +81,7 @@ import {
 } from "@/api/userAnswerController";
 import API from "@/api";
 import message from "@arco-design/web-vue/es/message";
-import { dayjs } from "@arco-design/web-vue/es/_utils/date";
+import { formatDateTime } from "@/utils/dateUtils";
 import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from "@/constant/app";
 
 const formSearchParams = ref<API.UserAnswerQueryRequest>({});

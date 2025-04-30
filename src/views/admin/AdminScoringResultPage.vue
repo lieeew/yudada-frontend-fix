@@ -54,10 +54,10 @@
       <a-image width="64" :src="record.resultPicture" />
     </template>
     <template #createTime="{ record }">
-      {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{ formatDateTime(record.createTime) }}
     </template>
     <template #updateTime="{ record }">
-      {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{ formatDateTime(record.updateTime) }}
     </template>
     <template #optional="{ record }">
       <a-space>
@@ -75,7 +75,7 @@ import {
 } from "@/api/scoringResultController";
 import API from "@/api";
 import message from "@arco-design/web-vue/es/message";
-import { dayjs } from "@arco-design/web-vue/es/_utils/date";
+import { formatDateTime } from "@/utils/dateUtils";
 
 const formSearchParams = ref<API.ScoringResultQueryRequest>({});
 

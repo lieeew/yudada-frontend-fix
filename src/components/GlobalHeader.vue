@@ -23,7 +23,22 @@
     </a-col>
     <a-col flex="100px">
       <div v-if="loginUserStore.loginUser.id">
-        {{ loginUserStore.loginUser.userName ?? "无名" }}
+        <a-dropdown>
+          <a-button>
+            {{ loginUserStore.loginUser.userName ?? "无名" }}
+            <icon-down />
+          </a-button>
+          <template #content>
+            <a-doption @click="handleLogout">
+              <a-link>
+                <a-space>
+                  <icon-google />
+                  退出登录
+                </a-space>
+              </a-link>
+            </a-doption>
+          </template>
+        </a-dropdown>
       </div>
       <div v-else>
         <a-button type="primary" href="/user/login">登录</a-button>
@@ -38,6 +53,8 @@ import { useRouter } from "vue-router";
 import { computed, ref } from "vue";
 import { useLoginUserStore } from "@/store/userStore";
 import checkAccess from "@/access/checkAccess";
+import { userLogoutUsingPost } from "@/api/userController";
+import { Message } from '@arco-design/web-vue';
 
 const loginUserStore = useLoginUserStore();
 
@@ -68,6 +85,23 @@ const doMenuClick = (key: string) => {
   router.push({
     path: key,
   });
+};
+
+// 处理退出登录
+const handleLogout = async () => {
+  try {
+    const res = await userLogoutUsingPost();
+    if (res.data.code === 0) {
+      // 重置用户信息
+      loginUserStore.setLoginUser({ userName: "未登录" });
+      Message.success('退出成功');
+      // 跳转到登录页
+      router.push('/user/login');
+    }
+  } catch (error) {
+    console.error('退出失败', error);
+    Message.error('退出失败');
+  }
 };
 </script>
 

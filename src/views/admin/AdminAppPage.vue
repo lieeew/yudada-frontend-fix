@@ -40,25 +40,22 @@
       <a-image width="64" :src="record.appIcon" />
     </template>
     <template #appType="{ record }">
-      {{ APP_TYPE_MAP[record.appType] }}
+      {{ APP_TYPE_MAP[record.appType as 0 | 1] }}
     </template>
     <template #scoringStrategy="{ record }">
-      {{ APP_SCORING_STRATEGY_MAP[record.scoringStrategy] }}
+      {{ APP_SCORING_STRATEGY_MAP[record.scoringStrategy as 0 | 1] }}
     </template>
     <template #reviewStatus="{ record }">
-      {{ REVIEW_STATUS_MAP[record.reviewStatus] }}
+      {{ REVIEW_STATUS_MAP[record.reviewStatus as 0 | 1 | 2] }}
     </template>
     <template #reviewTime="{ record }">
-      {{
-        record.reviewTime &&
-        dayjs(record.reviewTime).format("YYYY-MM-DD HH:mm:ss")
-      }}
+      {{ record.reviewTime && formatDateTime(record.reviewTime) }}
     </template>
     <template #createTime="{ record }">
-      {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{ formatDateTime(record.createTime) }}
     </template>
     <template #updateTime="{ record }">
-      {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{ formatDateTime(record.updateTime) }}
     </template>
     <template #optional="{ record }">
       <a-space>
@@ -91,7 +88,7 @@ import {
 } from "@/api/appController";
 import API from "@/api";
 import message from "@arco-design/web-vue/es/message";
-import { dayjs } from "@arco-design/web-vue/es/_utils/date";
+import { formatDateTime } from "@/utils/dateUtils";
 import {
   APP_SCORING_STRATEGY_MAP,
   APP_TYPE_MAP,
