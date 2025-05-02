@@ -2,11 +2,13 @@
   <div id="homePage">
     <div class="searchBar">
       <a-input-search
+        v-model="searchText"
         :style="{ width: '320px' }"
         placeholder="快速发现答题应用"
         button-text="搜索"
         size="large"
         search-button
+        @search="onSearch"
       />
     </div>
     <a-list
@@ -42,11 +44,24 @@ const initSearchParams = {
   pageSize: 12,
 };
 
+const searchText = ref('');
 const searchParams = ref<API.AppQueryRequest>({
   ...initSearchParams,
 });
 const dataList = ref<API.AppVO[]>([]);
 const total = ref<number>(0);
+
+/**
+ * 搜索应用
+ * @param value 搜索关键词
+ */
+const onSearch = (value: string) => {
+  searchParams.value = {
+    ...searchParams.value,
+    current: 1,
+    searchText: value,
+  };
+};
 
 /**
  * 加载数据
